@@ -7,6 +7,8 @@ TESTS := $(patsubst %.asciidoc, test_%, ${SOURCES})
 RUN_ASCIIDOCTOR = asciidoctor -a source-highlighter=pygments -a pygments-style=default -a stylesheet=asciidoctor.css -a linkcss -a icons=font -a compat-mode -a '!example-caption' -a last-update-label='License: Creative Commons <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode">CC-BY-NC-ND</a>. Last updated:'
 RUN_OREILLY_FLAVOURED_ASCIIDOCTOR = ./asciidoc/asciidoctor/bin/asciidoctor -v --trace -d book --safe -b htmlbook --template-dir ./asciidoc/asciidoctor-htmlbook/htmlbook 
 
+PYTESTOPT?=
+
 export PYTHONHASHSEED = 0
 export PYTHONDONTWRITEBYTECODE = 1
 export MOZ_HEADLESS = 1
@@ -64,9 +66,11 @@ update-submodules:
 	mkdir -p ../book-example.git
 	git init --bare ../book-example.git
 
+
+
 .PHONY: test
 test: build update-submodules .venv/bin
-	.venv/bin/pytest --tb=short --color=yes tests/
+	.venv/bin/pytest --tb=short --color=yes $(PYTESTOPT) tests/
 
 .PHONY: testall
 testall: build
