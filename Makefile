@@ -49,7 +49,7 @@ build: $(HTML_PAGES) $(TMPDIR)
 
 
 .venv/bin:
-	which uv && uv venv .venv || python3 -m venv .venv
+	which uv && uv venv --python 3.12 .venv || python3 -m venv .venv
 	which uv && uv pip install -e . || .venv/bin/pip install -e .
 
 .PHONY: install
